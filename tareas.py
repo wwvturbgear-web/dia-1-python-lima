@@ -32,7 +32,7 @@ def eliminar_tarea(lista):
         return
 
     try:
-        num = int(input("Numero de la tarea a elimaninar: "))
+        num = int(input("Numero de la tarea a eliminar: "))
         if 1 <= num <= len(lista):
              tarea_eliminada = lista.pop(num -1)
              print(f"Tarea '{tarea_eliminada}' eliminada. ")
@@ -67,6 +67,6 @@ while True:
         tareas.append(nueva_tarea)
         print(f"¡Te tocó! Agregada: {nueva_tarea}")      
     
-else:
-    print("Opción inválida")   
+    else:
+        print("Opción inválida")   
 
