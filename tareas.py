@@ -1,7 +1,22 @@
-
-print ("== WILLIAN DEV BACKEND ACTIVADO - DÍA 7 ==")
-tareas = []
+print("== WILLIAN DEV BACKEND ACTIVADO - DÍA 8 ==")
 import random
+
+ARCHIVO ="tareas.txt"
+
+def cargar_tareas():
+    """Carga las tareas desde el archivo al iniciar"""
+    try:
+        with open(ARCHIVO, "r", encoding="uf-8") as f:
+            return [linea.strip() for linea in f.readlines()]
+    except FileNotFoundError:
+        return []
+
+def guardar_tareas(lista):
+    """Guarda las tareas en el archivo cada vez que cambian"""
+    with open(ARCHIVO, "w", encoding="utf-8") as f:
+        for tarea in lista:
+            f.write(tarea + "\n")
+
 def tarea_sorpresa():
     opciones = [
         "Hacer 10 flexiones",
@@ -9,22 +24,20 @@ def tarea_sorpresa():
         "Ordenar tu escritorio por 2 minutos",
         "Estudiar python 5 min",
         "Salir a estirarte"
-    ]
-    tarea = random.choice(opciones)
-    return tarea
-
+    ]     
+    return random.choice(opciones)
 def mostrar_tareas(lista):
     if not lista:
         print("No tienes tareas. ")
     else:
-        for i in range(len(lista)):
-            print(f"{i+1}. {lista[i]}")
-            #cd Desktop/mi_primer_proyecto
+        for i, tarea in enumerate(lista, 1):
+            print(f"{i}. {tarea}")
 
 def agregar_tarea(lista):
-    nueva= input("Tarea: ")
+    nueva = input("Tarea: ")
     lista.append(nueva)
-    print(f"Guarda: {nueva}")
+    guardar_tareas(lista)
+    print(f"Guardada: {nueva}")
 
 def eliminar_tarea(lista):
     mostrar_tareas(lista)
@@ -32,16 +45,18 @@ def eliminar_tarea(lista):
         return
 
     try:
-        num = int(input("Numero de la tarea a eliminar: "))
+        num = int(input("Numero de la tarea a eliminar: ")) 
         if 1 <= num <= len(lista):
-             tarea_eliminada = lista.pop(num -1)
-             print(f"Tarea '{tarea_eliminada}' eliminada. ")
+            tarea_eliminada = lista.pop(num -1 )
+            guardar_tareas(lista)
+            print(f"Tarea ‘{tarea_eliminada}‘ eliminada.")
         else:
-            print("Número inválido.")        
+            print("Número inválido.")
     except ValueError:
-        print("Ingresa un numero válido. ")      
-tareas = []  
-#option mas costado p []      
+        print("Ingresa un número válido.")
+    #cargar tareas al iniciar
+tareas = cargar_tareas()
+
 while True:
     print("\n1. Agregar tareas")
     print("2. Ver mis tareas")
@@ -50,23 +65,21 @@ while True:
     print("5. Tarea sorpresa")
 
     opcion = input("Elije: ")
-        
-    if opcion == "1":
-        agregar_tarea(tareas) 
 
+    if opcion == "1":
+        agregar_tarea(tareas)
     elif opcion == "2":
         mostrar_tareas(tareas)
-
     elif opcion == "3":
         eliminar_tarea(tareas)
-    elif opcion == "4":
-        print("Chau bro, nos vemos mañana")  
+    elif opcion == "4":  
+        print("Chau bro, nos vemos mañana")
         break
     elif opcion == "5":
         nueva_tarea = tarea_sorpresa()
-        tareas.append(nueva_tarea)
-        print(f"¡Te tocó! Agregada: {nueva_tarea}")      
-    
+        tareas.append(nueva_tarea)      
+        guardar_tareas(tareas)
+        print(f"¡Te tocó! Agregada: {nueva_tarea}")
     else:
-        print("Opción inválida")   
+        print("Opcion inválida")
 
